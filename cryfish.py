@@ -3,6 +3,10 @@
 # board reprsentation
 # lower case for black
 # upper case for white 
+
+
+
+
 """
 board = [ 
             [ 'r','n','b','q','k','b','n','r' ],  # blacks backrank
@@ -89,21 +93,110 @@ class GameState:
                     moves.append(Move((row, col), (i, j), self.board))
                 elif not self.white_to_move and not destination.islower():
                     moves.append(Move((row, col), (i, j), self.board))
-       
                     
                     
                     
                     
+    def get_rook_moves(self,row,col,moves):
+        
+        directions = [ (-1,0), (1,0), (0,-1) , (0,1) ]
+        
+        for d in directions: 
+            
+            i = row + d[0]  # first step in direction  
+            j = col + d[1]
+
+            while True:
+                if 0 <= i <=7 and 0 <= j <= 7:
+                    destination = self.board[i][j]
+                    
+                    if self.white_to_move:
+                        if destination=='.': 
+                            moves.append(Move((row,col),(i,j),self.board))
+                   
+                        elif destination.islower():
+                            moves.append(Move((row,col), (i,j),self.board))
+                            break
+                        
+                        elif  destination.isupper():
+                            break
+                        
+                    else:
+                        if destination=='.':
+                            moves.append(Move((row,col),(i,j),self.board))
+                     
+                        elif  destination.isupper():
+                            moves.append(Move((row,col), (i,j),self.board))
+                            break
+                        
+                        elif  destination.islower():
+                            break    
+                   
+                   
+                    i = i+ d[0]
+                    j = j+ d[1]                        
+                            
+                else:
+                    break
+                                            
+                           
+                        
+    def get_bishop_moves(self,row,col,moves):
+        
+        directions = [(-1,-1), (1,-1), (-1,1), (1,1)]
+        
+        
+        for d in directions:
+            
+            i=row+d[0]
+            j=col+d[1]
+            
+            while True:
                 
+                if 0 <= i <= 7 and 0 <= j <= 7:
+                
+                    destination = self.board[i][j]
+                    
+                    if self.white_to_move:
+                    
+                        if destination=='.':
+                            moves.append(Move((row,col),(i,j),self.board))
+                            
+                        elif destination.islower():
+                            moves.append(Move((row,col),(i,j),self.board))
+                            break
+                        elif destination.isupper():
+                            break
+                                    
+                    
+                    
+                    else:
+                    
+                        if destination=='.':
+                            moves.append(Move((row,col),(i,j),self.board))
+                            
+                        elif destination.isupper():
+                            moves.append(Move((row,col),(i,j),self.board))
+                            break
+                        elif destination.islower():
+                            break
+                    
+                    
+                    i = i + d[0]
+                    j= j + d[1]
+                
+                
+                else:
+                
+                    break 
+                 
             
             
-                                                       
-               
-gs=GameState()
-gs.print_board()     
-gs.get_knight_moves(5,5,board)   
+                                
+                                
         
-        
+                             
+                    
         
 class Move:
     def __init__(self, start , end , board):
@@ -118,7 +211,11 @@ class Move:
                
 
 
-
+gs=GameState()
+gs.print_board()     
+gs.get_knight_moves(5,5,board)  
+gs.get_rook_moves(4,5,board) 
+        
 
 
 
