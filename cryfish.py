@@ -6,7 +6,6 @@
 
 
 
-"""
 
 board = [ 
             [ 'r','n','b','q','k','b','n','r' ],  # blacks backrank
@@ -22,6 +21,7 @@ board = [
             
 
 
+"""
             
 def print_board(board):
 
@@ -218,7 +218,68 @@ class GameState:
                     
                         
             
-                                                                   
+    def get_pawn_moves(self,row,col,moves):
+    
+        if self.white_to_move:
+            
+            # one square forward
+            if 0 <= row-1 <=7:
+                if self.board[row-1][col] == '.':
+                    moves.append(Move((row,col),(row-1,col),self.board))
+                
+            # two square forward
+            
+            if row==6:
+               if self.board[row-1][col] == '.' and self.board[row-2][col] == '.':
+                    moves.append(Move((row,col),(row-2,col),self.board))
+                    
+            # diagonal capture
+            
+            
+            if 0 <= row-1 <= 7:
+                if 0 <= col-1 <=7:
+            
+                    if self.board[row-1][col-1].islower():
+                        move.append(Move((row,col),(row-1,col-1),self.board))
+            
+            
+                if 0 <= col+1 <=7:
+                    if self.board[row-1][col+1].islower(): # enemy piece
+                        move.append(Move((row,col),(row-1,col+1),self.board))
+                
+                
+                    
+        else:
+                 
+            # one square forward
+            if 0 <= row+1 <= 7:    
+                if self.board[row+1][col] == '.':
+                    moves.append(Move((row,col),(row+1,col),self.board))
+                
+            # two square forward
+           
+            if row==6:
+               if self.board[row+1][col] == '.' and self.board[row+2][col] == '.':
+                    moves.append(Move((row,col),(row+2,col),self.board))
+                    
+            # diagonal capture
+            
+         
+            if 0<= row+1 <=7:
+                if 0<= col-1 <=7:
+                    if self.board[row+1][col-1].isupper():
+                        move.append(Move((row,col),(row+1,col-1),self.board))
+         
+                if 0<= col+1 <=7:
+                
+                    if self.board[row+1][col+1].islower():
+                        move.append(Move((row,col),(row+1,col+1),self.board))
+                                
+                    
+                    
+                    
+                     
+                                                                               
         
                              
                     
@@ -234,7 +295,7 @@ class Move:
         
         
                
-
+# testing 
 
 gs=GameState()
 gs.print_board()     
@@ -243,6 +304,7 @@ gs.get_rook_moves(4,5,board)
 gs.get_bishop_moves(5,3,board)
 gs.get_queen_moves(3,4,board)
 gs.get_king_moves(5,6,board)
+gs.get_pawn_moves(5,3,board)
 
 
         
