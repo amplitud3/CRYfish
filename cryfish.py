@@ -6,8 +6,8 @@
 
 
 
-
 """
+
 board = [ 
             [ 'r','n','b','q','k','b','n','r' ],  # blacks backrank
             [ 'p','p','p','p','p','p','p','p' ],
@@ -192,8 +192,33 @@ class GameState:
                  
             
             
-                                
-                                
+    def get_queen_moves(self,row,col,moves):
+        self.get_rook_moves(row,col,moves)
+        self.get_bishop_moves(row,col,moves)
+        
+                                        
+    def get_king_moves(self,row,col,moves):
+        
+        directions = [ (1,-1),(1,0),(1,1),(0,-1),
+                       (0,1),(-1,-1),(-1,0),(-1,1) ]
+                       
+                       
+        for d in directions:
+            
+            i = row+d[0]
+            j = col+d[1]
+            
+            if 0 <= i <= 7 and 0 <= j <=7 :
+                destination = self.board[i][j]
+                
+                if self.white_to_move and not destination.isupper():
+                    moves.append(Move((row,col),(i,j),self.board))
+                elif not self.white_to_move and not destination.islower():
+                    moves.append(Move((row,col),(i,j),self.board))
+                    
+                        
+            
+                                                                   
         
                              
                     
@@ -215,6 +240,11 @@ gs=GameState()
 gs.print_board()     
 gs.get_knight_moves(5,5,board)  
 gs.get_rook_moves(4,5,board) 
+gs.get_bishop_moves(5,3,board)
+gs.get_queen_moves(3,4,board)
+gs.get_king_moves(5,6,board)
+
+
         
 
 
