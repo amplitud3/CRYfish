@@ -5,7 +5,7 @@
 # upper case for white 
 
 
-
+"""
 
 board = [ 
             [ 'r','n','b','q','k','b','n','r' ],  # blacks backrank
@@ -21,7 +21,7 @@ board = [
             
 
 
-"""
+
             
 def print_board(board):
 
@@ -75,7 +75,38 @@ class GameState:
         
         
     def get_valid_moves(self):
-        pass 
+        
+        moves= []
+        
+        move_functions = {
+            'P' : self.get_pawn_moves,
+            'R' : self.get_rook_moves,
+            'N' : self.get_knight_moves,
+            'B' : self.get_bishop_moves,
+            'Q' : self.get_queen_moves,
+            'K' : self.get_king_moves
+            
+        }
+        
+        
+        
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row][col]
+                
+                if piece=='.':
+                    continue
+                if self.white_to_move and piece.isupper():
+                    move_functions[piece](row,col,moves)
+                    
+                elif not self.white_to_move and piece.islower():
+                    move_functions[piece.upper()](row,col,moves)
+                    
+                    
+        return moves
+    
+                                    
+        
     
         
     def get_knight_moves(self,row,col,moves):
@@ -297,6 +328,7 @@ class Move:
                
 # testing 
 
+"""
 gs=GameState()
 gs.print_board()     
 gs.get_knight_moves(5,5,board)  
@@ -306,7 +338,15 @@ gs.get_queen_moves(3,4,board)
 gs.get_king_moves(5,6,board)
 gs.get_pawn_moves(5,3,board)
 
+"""
 
+gs = GameState()
+gs.print_board()
+
+moves = gs.get_valid_moves()
+print(f"\nTotal moves: {len(moves)}")
+for move in moves:
+    print(f"{move.piece_moved}: ({move.start_row},{move.start_col}) -> ({move.end_row},{move.end_col})")
         
 
 
