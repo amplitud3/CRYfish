@@ -308,7 +308,27 @@ class GameState:
                                 
                     
                     
-                    
+    def make_move(self,move):
+        
+        self.board[move.end_row][move.end_col] = move.piece_moved
+        
+        self.board[move.start_row][move.start_col] = '.'
+        
+        self.move_log.append(move)
+        
+        self.white_to_move = not self.white_to_move
+        
+        
+    def undo_move(self):
+        
+        last_move = self.move_log.pop()
+        
+        self.board[last_move.start_row][last_move.start_col]= last_move.piece_moved
+        self.board[last_move.end_row][last_move.end_col] = last_move.piece_captured
+        self.white_to_move = not self.white_to_move 
+        
+                      
+                            
                      
                                                                                
         
@@ -338,7 +358,6 @@ gs.get_queen_moves(3,4,board)
 gs.get_king_moves(5,6,board)
 gs.get_pawn_moves(5,3,board)
 
-"""
 
 gs = GameState()
 gs.print_board()
@@ -349,10 +368,22 @@ for move in moves:
     print(f"{move.piece_moved}: ({move.start_row},{move.start_col}) -> ({move.end_row},{move.end_col})")
         
 
+"""
 
 
+gs = GameState()
+gs.print_board()
 
+# make a move 
+moves = gs.get_valid_moves()
+gs.make_move(moves[4])
+print("\nAfter move:")
+gs.print_board()
 
+# undo it
+gs.undo_move()
+print("\nAfter undo:")
+gs.print_board()
 
 
 
