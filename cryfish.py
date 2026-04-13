@@ -311,11 +311,8 @@ class GameState:
     def make_move(self,move):
         
         self.board[move.end_row][move.end_col] = move.piece_moved
-        
         self.board[move.start_row][move.start_col] = '.'
-        
         self.move_log.append(move)
-        
         self.white_to_move = not self.white_to_move
         
         
@@ -328,7 +325,23 @@ class GameState:
         self.white_to_move = not self.white_to_move 
         
                       
-                            
+    def evaluate(self):
+        piece_values = { 
+            'P':1, 'N':3, 'B':3,
+            'R':5, 'Q':9, 'K':0
+            }
+            
+        score=0    
+        for i in range(8):
+            for k in range(8):
+                if self.board[i][k].isupper():
+                    score = score+piece_values[self.board[i][k]]
+                elif self.board[i][k].islower():
+                    score = score - piece_values[self.board[i][k].upper()]
+            
+        return score                         
+                        
+                                        
                      
                                                                                
         
@@ -368,9 +381,6 @@ for move in moves:
     print(f"{move.piece_moved}: ({move.start_row},{move.start_col}) -> ({move.end_row},{move.end_col})")
         
 
-"""
-
-
 gs = GameState()
 gs.print_board()
 
@@ -385,8 +395,10 @@ gs.undo_move()
 print("\nAfter undo:")
 gs.print_board()
 
+"""
 
-
+gs = GameState()
+print(gs.evaluate())
 
 
  
